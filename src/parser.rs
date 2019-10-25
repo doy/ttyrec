@@ -88,3 +88,35 @@ impl Default for Parser {
         }
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_basic() {
+        let bytes = vec![
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 0, 64, 226, 1, 0,
+            10, 0, 0, 0, 27, 91, 50, 74, 102, 111, 111, 98, 97, 114,
+        ];
+        let mut parser = Parser::new();
+        for (i, c) in bytes.into_iter().enumerate() {
+            parser.add_bytes(&[c]);
+            let expected = match i {
+                11 => {
+                    let time = std::time::Duration::new(0, 0);
+                    let data = b"".to_vec();
+                    Some(crate::frame::Frame { time, data })
+                }
+                33 => {
+                    let time = std::time::Duration::new(38, 123_456_000);
+                    let data = b"\x1b[2Jfoobar".to_vec();
+                    Some(crate::frame::Frame { time, data })
+                }
+                _ => None,
+            };
+            let got = parser.next_frame();
+            assert_eq!(got, expected);
+        }
+    }
+}

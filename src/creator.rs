@@ -33,3 +33,30 @@ impl Default for Creator {
         Self { base_time: None }
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_basic() {
+        let mut creator = Creator::new();
+        let base_time = std::time::Instant::now();
+        assert_eq!(
+            creator.frame(base_time, b"").unwrap(),
+            vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        );
+        assert_eq!(
+            creator
+                .frame(
+                    base_time + std::time::Duration::new(38, 123_456_000),
+                    b"\x1b[2Jfoobar"
+                )
+                .unwrap(),
+            vec![
+                38, 0, 0, 0, 64, 226, 1, 0, 10, 0, 0, 0, 27, 91, 50, 74, 102,
+                111, 111, 98, 97, 114,
+            ],
+        );
+    }
+}
