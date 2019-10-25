@@ -9,8 +9,11 @@ impl Creator {
         Default::default()
     }
 
-    pub fn frame(&mut self, data: &[u8]) -> crate::error::Result<Vec<u8>> {
-        let cur_time = std::time::Instant::now();
+    pub fn frame(
+        &mut self,
+        cur_time: std::time::Instant,
+        data: &[u8],
+    ) -> crate::error::Result<Vec<u8>> {
         let base_time = if let Some(base_time) = &self.base_time {
             base_time
         } else {
