@@ -1,4 +1,5 @@
 #[repr(packed)]
+#[derive(Debug, Clone, Copy)]
 struct Header {
     secs: u32,
     micros: u32,
@@ -17,6 +18,7 @@ impl Header {
     }
 }
 
+#[derive(Debug, Clone)]
 pub struct Parser {
     reading: std::collections::VecDeque<u8>,
     read_state: Option<Header>,

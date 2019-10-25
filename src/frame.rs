@@ -1,3 +1,4 @@
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Frame {
     pub time: std::time::Duration,
     pub data: Vec<u8>,

@@ -1,5 +1,6 @@
 use std::convert::TryFrom as _;
 
+#[derive(Debug, Clone)]
 pub struct Creator {
     base_time: Option<std::time::Instant>,
 }
