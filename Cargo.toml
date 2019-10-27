@@ -12,6 +12,10 @@ keywords = ["ttyrec"]
 categories = ["parser-implementations"]
 
 [dependencies]
-futures = "0.1.29"
+futures = { version = "0.1.29", optional = true }
 snafu = "0.5"
-tokio = "0.1.22"
+tokio = { version = "0.1.22", optional = true }
+
+[features]
+default = ["async"]
+async = ["tokio", "futures"]

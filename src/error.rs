@@ -17,10 +17,12 @@ pub enum Error {
     FrameTooLong { input: u64 },
 
     /// failed to read from file
+    #[cfg(feature = "async")]
     #[snafu(display("failed to read from file: {}", source))]
     ReadFile { source: tokio::io::Error },
 
     /// failed to write to file
+    #[cfg(feature = "async")]
     #[snafu(display("failed to write to file: {}", source))]
     WriteFile { source: tokio::io::Error },
 }

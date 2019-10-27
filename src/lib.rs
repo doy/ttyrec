@@ -20,7 +20,11 @@ mod frame;
 pub use frame::Frame;
 mod parser;
 pub use parser::Parser;
+#[cfg(feature = "async")]
 mod reader;
+#[cfg(feature = "async")]
 pub use reader::Reader;
+#[cfg(feature = "async")]
 mod writer;
+#[cfg(feature = "async")]
 pub use writer::Writer;
