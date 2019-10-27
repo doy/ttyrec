@@ -4,6 +4,11 @@
 //! `Parser` and `Creator` can be used to read and write files manually, and
 //! `Reader` and `Writer` are helpers to provide a nicer API for asynchronous
 //! applications using `tokio`.
+
+#![warn(clippy::pedantic)]
+#![warn(clippy::nursery)]
+#![allow(clippy::missing_const_for_fn)]
+
 mod creator;
 pub use creator::Creator;
 mod error;

@@ -12,7 +12,7 @@ pub struct Creator {
 impl Creator {
     /// Creates a new `Creator` instance.
     pub fn new() -> Self {
-        Default::default()
+        Self::default()
     }
 
     /// Returns a new `Frame` object containing the given data.

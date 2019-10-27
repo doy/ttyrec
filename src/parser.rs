@@ -34,7 +34,7 @@ pub struct Parser {
 impl Parser {
     /// Create a new `Parser`.
     pub fn new() -> Self {
-        Default::default()
+        Self::default()
     }
 
     /// Add more bytes to the internal buffer.
@@ -61,11 +61,12 @@ impl Parser {
             let secs4 = self.reading.pop_front().unwrap();
             let secs = u32::from_le_bytes([secs1, secs2, secs3, secs4]);
 
-            let usecs1 = self.reading.pop_front().unwrap();
-            let usecs2 = self.reading.pop_front().unwrap();
-            let usecs3 = self.reading.pop_front().unwrap();
-            let usecs4 = self.reading.pop_front().unwrap();
-            let micros = u32::from_le_bytes([usecs1, usecs2, usecs3, usecs4]);
+            let micros1 = self.reading.pop_front().unwrap();
+            let micros2 = self.reading.pop_front().unwrap();
+            let micros3 = self.reading.pop_front().unwrap();
+            let micros4 = self.reading.pop_front().unwrap();
+            let micros =
+                u32::from_le_bytes([micros1, micros2, micros3, micros4]);
 
             let len1 = self.reading.pop_front().unwrap();
             let len2 = self.reading.pop_front().unwrap();
