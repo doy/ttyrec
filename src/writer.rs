@@ -15,12 +15,16 @@ impl<W: tokio::io::AsyncWrite> Writer<W> {
         }
     }
 
-    pub fn frame(
+    pub fn frame(&mut self, data: &[u8]) -> crate::error::Result<()> {
+        self.frame_at(std::time::Instant::now(), data)
+    }
+
+    pub fn frame_at(
         &mut self,
         time: std::time::Instant,
         data: &[u8],
     ) -> crate::error::Result<()> {
-        let frame = self.creator.frame(time, data);
+        let frame = self.creator.frame_at(time, data);
         let bytes: Vec<u8> = std::convert::TryFrom::try_from(frame)?;
         self.to_write.extend(bytes.iter());
         Ok(())

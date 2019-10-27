@@ -8,7 +8,11 @@ impl Creator {
         Default::default()
     }
 
-    pub fn frame(
+    pub fn frame(&mut self, data: &[u8]) -> crate::frame::Frame {
+        self.frame_at(std::time::Instant::now(), data)
+    }
+
+    pub fn frame_at(
         &mut self,
         cur_time: std::time::Instant,
         data: &[u8],
@@ -42,12 +46,12 @@ mod test {
         let base_time = std::time::Instant::now();
 
         let zero_frame: Vec<u8> =
-            std::convert::TryFrom::try_from(creator.frame(base_time, b""))
+            std::convert::TryFrom::try_from(creator.frame_at(base_time, b""))
                 .unwrap();
         assert_eq!(zero_frame, vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
         let data_frame: Vec<u8> =
-            std::convert::TryFrom::try_from(creator.frame(
+            std::convert::TryFrom::try_from(creator.frame_at(
                 base_time + std::time::Duration::new(38, 123_456_000),
                 b"\x1b[2Jfoobar",
             ))
