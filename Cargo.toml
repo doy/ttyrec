@@ -4,6 +4,13 @@ version = "0.1.0"
 authors = ["Jesse Luehrs <doy@tozt.net>"]
 edition = "2018"
 
+description = "reads and writes ttyrec files"
+license = "MIT"
+repository = "https://git.tozt.net/ttyrec"
+readme = "README.md"
+keywords = ["ttyrec"]
+categories = ["parser-implementations"]
+
 [dependencies]
 futures = "0.1.29"
 snafu = "0.5"
