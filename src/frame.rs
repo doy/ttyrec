@@ -1,6 +1,19 @@
+/// Represents a single ttyrec frame.
+///
+/// Ttyrec files are a raw concatenation of frames. Note that the `time` field
+/// in each frame is the time since the start of the entire file, and it is
+/// invalid for the `time` fields in a ttyrec file to be decreasing.
+///
+/// Frame objects are typically created via the `Creator`, `Parser`, or
+/// `Reader` classes.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Frame {
+    /// Amount of time passed since the start of the ttyrec file.
+    ///
+    /// Note that this is *not* the amount of time since the previous frame.
     pub time: std::time::Duration,
+
+    /// Bytes emitted at the given time.
     pub data: Vec<u8>,
 }
 

@@ -1,5 +1,6 @@
 use snafu::ResultExt as _;
 
+/// Reads ttyrec frames from a `tokio::io::AsyncRead` instance.
 pub struct Reader<R> {
     reader: R,
     parser: crate::parser::Parser,
@@ -8,6 +9,7 @@ pub struct Reader<R> {
 }
 
 impl<R: tokio::io::AsyncRead> Reader<R> {
+    /// Creates a new `Reader` from a `tokio::io::AsyncRead` instance.
     pub fn new(reader: R) -> Self {
         Self {
             reader,
@@ -17,6 +19,12 @@ impl<R: tokio::io::AsyncRead> Reader<R> {
         }
     }
 
+    /// Polls to see if a new frame can be read.
+    ///
+    /// Returns `Ok(Async::Ready(Some(frame)))` if a frame is available,
+    /// `Ok(Async::Ready(None))` if the underlying reader is done, and
+    /// `Ok(Async::NotReady)` if not enough bytes have been read for a full
+    /// frame.
     pub fn poll_read(
         &mut self,
     ) -> futures::Poll<Option<crate::frame::Frame>, crate::error::Error> {

@@ -18,6 +18,13 @@ impl Header {
     }
 }
 
+/// Parses ttyrec streams.
+///
+/// Designed to be able to be used in a streaming/asynchronous fashion. As you
+/// read bytes from the ttyrec stream (whether from a file or whatever else),
+/// call the `add_bytes` method to add them to the internal buffer. At any
+/// point, you can call `next_frame` to then return the next complete frame if
+/// one has been read.
 #[derive(Debug, Clone)]
 pub struct Parser {
     reading: std::collections::VecDeque<u8>,
@@ -25,14 +32,21 @@ pub struct Parser {
 }
 
 impl Parser {
+    /// Create a new `Parser`.
     pub fn new() -> Self {
         Default::default()
     }
 
+    /// Add more bytes to the internal buffer.
     pub fn add_bytes(&mut self, bytes: &[u8]) {
         self.reading.extend(bytes.iter());
     }
 
+    /// Try to read a frame from the internal buffer.
+    ///
+    /// If a complete frame is found, the bytes for that frame will be removed
+    /// from the internal buffer and the frame object will be returned. If a
+    /// complete frame is not found, this method will return `None`.
     pub fn next_frame(&mut self) -> Option<crate::frame::Frame> {
         let header = if let Some(header) = &self.read_state {
             header
