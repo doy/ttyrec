@@ -1,6 +1,9 @@
 #[derive(Debug, snafu::Snafu)]
 #[snafu(visibility(pub))]
 pub enum Error {
+    #[snafu(display("eof"))]
+    EOF,
+
     #[snafu(display("failed to create ttyrec frame: got {} bytes of data, but ttyrec frames can be at most {} bytes", input, u32::max_value()))]
     FrameTooBig { input: usize },
 

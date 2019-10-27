@@ -31,19 +31,30 @@ impl<W: tokio::io::AsyncWrite> Writer<W> {
     }
 
     pub fn poll_write(&mut self) -> futures::Poll<(), crate::error::Error> {
-        let (a, b) = self.to_write.as_slices();
-        let buf = if a.is_empty() { b } else { a };
-        let n = futures::try_ready!(self
-            .writer
-            .poll_write(buf)
-            .context(crate::error::WriteFile));
-        for _ in 0..n {
-            self.to_write.pop_front();
+        loop {
+            if self.to_write.is_empty() {
+                return Ok(futures::Async::Ready(()));
+            }
+
+            let (a, b) = self.to_write.as_slices();
+            let buf = if a.is_empty() { b } else { a };
+
+            let n = futures::try_ready!(self
+                .writer
+                .poll_write(buf)
+                .context(crate::error::WriteFile));
+
+            if n > 0 {
+                for _ in 0..n {
+                    self.to_write.pop_front();
+                }
+            } else {
+                return Err(crate::error::Error::EOF);
+            }
         }
-        Ok(futures::Async::Ready(()))
     }
 
-    pub fn is_empty(&self) -> bool {
-        self.to_write.is_empty()
+    pub fn needs_write(&self) -> bool {
+        !self.to_write.is_empty()
     }
 }
