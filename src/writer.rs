@@ -20,7 +20,8 @@ impl<W: tokio::io::AsyncWrite> Writer<W> {
         time: std::time::Instant,
         data: &[u8],
     ) -> crate::error::Result<()> {
-        let bytes = self.creator.frame(time, data)?;
+        let frame = self.creator.frame(time, data);
+        let bytes: Vec<u8> = std::convert::TryFrom::try_from(frame)?;
         self.to_write.extend(bytes.iter());
         Ok(())
     }
