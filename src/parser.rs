@@ -8,9 +8,9 @@ struct Header {
 
 impl Header {
     fn time(&self) -> std::time::Duration {
-        std::time::Duration::from_micros(u64::from(
-            self.secs * 1_000_000 + self.micros,
-        ))
+        std::time::Duration::from_micros(
+            u64::from(self.secs) * 1_000_000 + u64::from(self.micros),
+        )
     }
 
     fn len(&self) -> usize {
