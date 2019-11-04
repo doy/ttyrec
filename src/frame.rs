@@ -1,8 +1,9 @@
 /// Represents a single ttyrec frame.
 ///
-/// Ttyrec files are a raw concatenation of frames. Note that the `time` field
-/// in each frame is the time since the start of the entire file, and it is
-/// invalid for the `time` fields in a ttyrec file to be decreasing.
+/// Ttyrec files are a raw concatenation of frames. Note that the timestamps
+/// in the frame are absolute timestamps, and only the difference between them
+/// is relevant. The base timestamp can be anything (common choices are 0 or
+/// the actual time that the frame was generated).
 ///
 /// Frame objects are typically created via the `Creator`, `Parser`, or
 /// `Reader` classes.

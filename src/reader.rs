@@ -46,4 +46,11 @@ impl<R: tokio::io::AsyncRead> Reader<R> {
             }
         }
     }
+
+    /// How much the timestamps in this file should be offset by.
+    ///
+    /// See `Parser::offset`.
+    pub fn offset(&self) -> Option<std::time::Duration> {
+        self.parser.offset()
+    }
 }
