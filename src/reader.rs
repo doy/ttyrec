@@ -1,0 +1,49 @@
+use futures::io::AsyncReadExt as _;
+
+/// Reads ttyrec frames from a `futures::io::AsyncRead` instance.
+pub struct Reader<T: futures::io::AsyncRead> {
+    input: T,
+    parser: crate::Parser,
+    buf: [u8; 4096],
+}
+
+impl<T: futures::io::AsyncRead + std::marker::Unpin + Send> Reader<T> {
+    /// Creates a new `Reader` from a `futures::io::AsyncRead` instance.
+    pub fn new(input: T) -> Self {
+        Self {
+            input,
+            parser: crate::Parser::new(),
+            buf: [0; 4096],
+        }
+    }
+
+    /// Returns the next parsed frame from the input stream.
+    ///
+    /// # Errors
+    /// * `crate::Error::EOF`: The input stream has been closed.
+    /// * `crate::Error::Read`: There was an error reading from the input
+    /// stream.
+    pub async fn read_frame(&mut self) -> crate::Result<crate::Frame> {
+        loop {
+            if let Some(frame) = self.parser.next_frame() {
+                return Ok(frame);
+            }
+            let bytes = self
+                .input
+                .read(&mut self.buf)
+                .await
+                .map_err(|source| crate::Error::Read { source })?;
+            if bytes == 0 {
+                return Err(crate::Error::EOF);
+            }
+            self.parser.add_bytes(&self.buf[..bytes]);
+        }
+    }
+
+    /// How much the timestamps in this file should be offset by.
+    ///
+    /// See `Parser::offset`.
+    pub fn offset(&self) -> Option<std::time::Duration> {
+        self.parser.offset()
+    }
+}

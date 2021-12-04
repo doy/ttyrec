@@ -12,3 +12,8 @@ keywords = ["ttyrec"]
 categories = ["parser-implementations"]
 
 [dependencies]
+futures = { version = "0.3.18", optional = true }
+
+[features]
+default = ["async"]
+async = ["futures"]

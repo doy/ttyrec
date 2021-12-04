@@ -19,8 +19,17 @@
 mod creator;
 pub use creator::Creator;
 mod error;
-pub use error::Error;
+pub use error::{Error, Result};
 mod frame;
 pub use frame::Frame;
 mod parser;
 pub use parser::Parser;
+pub mod blocking;
+#[cfg(feature = "async")]
+mod reader;
+#[cfg(feature = "async")]
+pub use reader::Reader;
+#[cfg(feature = "async")]
+mod writer;
+#[cfg(feature = "async")]
+pub use writer::Writer;
