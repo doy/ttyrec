@@ -11,6 +11,7 @@ pub struct Creator {
 
 impl Creator {
     /// Creates a new `Creator` instance.
+    #[must_use]
     pub fn new() -> Self {
         Self::default()
     }
@@ -29,15 +30,20 @@ impl Creator {
     /// Note that this is not guaranteed to do the correct thing unless the
     /// `cur_time` parameters given in each `frame_at` call are
     /// non-decreasing.
+    #[allow(clippy::missing_panics_doc)]
     pub fn frame_at(
         &mut self,
         cur_time: std::time::Instant,
         data: &[u8],
     ) -> crate::frame::Frame {
+        // this is triggering incorrectly - the code transformation it
+        // suggests doesn't work due to lifetime issues
+        #[allow(clippy::option_if_let_else)]
         let base_time = if let Some(base_time) = &self.base_time {
             base_time
         } else {
             self.base_time = Some(cur_time);
+            // this unwrap is safe because we just set the value to Some
             self.base_time.as_ref().unwrap()
         };
         crate::frame::Frame {
@@ -63,16 +69,14 @@ mod test {
         let base_time = std::time::Instant::now();
 
         let zero_frame: Vec<u8> =
-            std::convert::TryFrom::try_from(creator.frame_at(base_time, b""))
-                .unwrap();
+            TryFrom::try_from(creator.frame_at(base_time, b"")).unwrap();
         assert_eq!(zero_frame, vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
-        let data_frame: Vec<u8> =
-            std::convert::TryFrom::try_from(creator.frame_at(
-                base_time + std::time::Duration::new(38, 123_456_000),
-                b"\x1b[2Jfoobar",
-            ))
-            .unwrap();
+        let data_frame: Vec<u8> = TryFrom::try_from(creator.frame_at(
+            base_time + std::time::Duration::new(38, 123_456_000),
+            b"\x1b[2Jfoobar",
+        ))
+        .unwrap();
         assert_eq!(
             data_frame,
             vec![

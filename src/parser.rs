@@ -34,6 +34,7 @@ pub struct Parser {
 
 impl Parser {
     /// Create a new `Parser`.
+    #[must_use]
     pub fn new() -> Self {
         Self::default()
     }
@@ -48,6 +49,7 @@ impl Parser {
     /// If a complete frame is found, the bytes for that frame will be removed
     /// from the internal buffer and the frame object will be returned. If a
     /// complete frame is not found, this method will return `None`.
+    #[allow(clippy::missing_panics_doc)]
     pub fn next_frame(&mut self) -> Option<crate::frame::Frame> {
         let header = if let Some(header) = &self.read_state {
             header
@@ -56,6 +58,7 @@ impl Parser {
                 return None;
             }
 
+            // these unwraps are guaranteed safe by the length check above
             let secs1 = self.reading.pop_front().unwrap();
             let secs2 = self.reading.pop_front().unwrap();
             let secs3 = self.reading.pop_front().unwrap();
@@ -106,6 +109,7 @@ impl Parser {
     /// each frame timestamp after that should be offset by that same amount.
     ///
     /// Returns `None` if no frames have been read yet.
+    #[must_use]
     pub fn offset(&self) -> Option<std::time::Duration> {
         self.offset
     }

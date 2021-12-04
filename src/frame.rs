@@ -18,7 +18,7 @@ pub struct Frame {
     pub data: Vec<u8>,
 }
 
-impl std::convert::TryFrom<Frame> for Vec<u8> {
+impl TryFrom<Frame> for Vec<u8> {
     type Error = crate::error::Error;
 
     fn try_from(frame: Frame) -> crate::error::Result<Self> {
@@ -45,7 +45,6 @@ impl std::convert::TryFrom<Frame> for Vec<u8> {
 #[cfg(test)]
 mod test {
     use super::*;
-    use std::convert::TryFrom as _;
 
     #[test]
     fn test_basic() {

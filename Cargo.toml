@@ -2,7 +2,7 @@
 name = "ttyrec"
 version = "0.2.0"
 authors = ["Jesse Luehrs <doy@tozt.net>"]
-edition = "2018"
+edition = "2021"
 
 description = "reads and writes ttyrec files"
 license = "MIT"
@@ -12,10 +12,3 @@ keywords = ["ttyrec"]
 categories = ["parser-implementations"]
 
 [dependencies]
-futures = { version = "0.1.29", optional = true }
-snafu = "0.5"
-tokio = { version = "0.1.22", optional = true }
-
-[features]
-default = ["async"]
-async = ["tokio", "futures"]
