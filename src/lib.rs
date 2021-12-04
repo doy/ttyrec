@@ -3,11 +3,13 @@
 //!
 //! `Parser` and `Creator` can be used to read and write files manually, and
 //! `Reader` and `Writer` are helpers to provide a nicer API for asynchronous
-//! applications using `tokio`.
+//! applications using futures. Additionally, `blocking::Reader` and
+//! `blocking::Writer` provide a similar API for non-asynchronous
+//! applications.
 //!
-//! If you are not using `tokio`, the `tokio` dependencies can be removed by
-//! building with `default_features = false` (by default, the `"async"`
-//! feature is enabled which provides `tokio` support).
+//! If you do not need the async API, the `futures` dependency can be removed
+//! by building with `default_features = false` (by default, the `"async"`
+//! feature is enabled).
 
 // XXX this is broken with ale
 // #![warn(clippy::cargo)]

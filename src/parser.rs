@@ -22,9 +22,10 @@ impl Header {
 ///
 /// Designed to be able to be used in a streaming/asynchronous fashion. As you
 /// read bytes from the ttyrec stream (whether from a file or whatever else),
-/// call the `add_bytes` method to add them to the internal buffer. At any
-/// point, you can call `next_frame` to then return the next complete frame if
-/// one has been read.
+/// call the [`add_bytes`](Parser::add_bytes) method to add them to the
+/// internal buffer. At any point, you can call
+/// [`next_frame`](Parser::next_frame) to then return the next complete frame
+/// if one has been read.
 #[derive(Debug, Default, Clone)]
 pub struct Parser {
     reading: std::collections::VecDeque<u8>,
@@ -33,7 +34,7 @@ pub struct Parser {
 }
 
 impl Parser {
-    /// Create a new `Parser`.
+    /// Create a new [`Parser`](Self).
     #[must_use]
     pub fn new() -> Self {
         Self::default()
@@ -48,7 +49,7 @@ impl Parser {
     ///
     /// If a complete frame is found, the bytes for that frame will be removed
     /// from the internal buffer and the frame object will be returned. If a
-    /// complete frame is not found, this method will return `None`.
+    /// complete frame is not found, this method will return [`None`].
     #[allow(clippy::missing_panics_doc)]
     pub fn next_frame(&mut self) -> Option<crate::frame::Frame> {
         let header = if let Some(header) = &self.read_state {
@@ -108,7 +109,7 @@ impl Parser {
     /// need to take the timestamp of the first frame as the start time, and
     /// each frame timestamp after that should be offset by that same amount.
     ///
-    /// Returns `None` if no frames have been read yet.
+    /// Returns [`None`] if no frames have been read yet.
     #[must_use]
     pub fn offset(&self) -> Option<std::time::Duration> {
         self.offset

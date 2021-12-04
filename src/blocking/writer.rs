@@ -1,11 +1,11 @@
-/// Writes ttyrec frames to a `std::io::Write` instance.
+/// Writes ttyrec frames to a [`std::io::Write`] instance.
 pub struct Writer<T: std::io::Write> {
     output: T,
     creator: crate::Creator,
 }
 
 impl<T: std::io::Write> Writer<T> {
-    /// Creates a new `Writer` from a `std::io::Write` instance.
+    /// Creates a new [`Writer`] from a [`std::io::Write`] instance.
     pub fn new(output: T) -> Self {
         Self {
             output,
@@ -17,8 +17,8 @@ impl<T: std::io::Write> Writer<T> {
     /// given data.
     ///
     /// # Errors
-    /// * `crate::Error::Write`: There was an error writing to the input
-    /// stream.
+    /// * [`Error::Write`](crate::Error::Write): There was an error writing to
+    /// the input stream.
     pub fn frame(&mut self, data: &[u8]) -> crate::Result<()> {
         self.frame_at(std::time::Instant::now(), data)
     }
@@ -27,8 +27,8 @@ impl<T: std::io::Write> Writer<T> {
     /// data.
     ///
     /// # Errors
-    /// * `crate::Error::Write`: There was an error writing to the input
-    /// stream.
+    /// * [`crate::Error::Write`](crate::Error::Write): There was an error
+    /// writing to the input stream.
     pub fn frame_at(
         &mut self,
         cur_time: std::time::Instant,

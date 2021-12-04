@@ -5,8 +5,8 @@
 /// is relevant. The base timestamp can be anything (common choices are 0 or
 /// the actual time that the frame was generated).
 ///
-/// Frame objects are typically created via the `Creator`, `Parser`, or
-/// `Reader` classes.
+/// Frame objects are typically created via the [`Creator`](crate::Creator),
+/// [`Parser`](crate::Parser), or [`Reader`](crate::Reader) classes.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Frame {
     /// Amount of time passed since the start of the ttyrec file.
