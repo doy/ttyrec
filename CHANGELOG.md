@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.0] - 2021-12-04
+
+### Changed
+
+* reimplemented `Reader` and `Writer` using a modern async api
+
 ## [0.2.0] - 2019-11-04
 
 ### Added
