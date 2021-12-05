@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+* moved to `futures_lite` instead of `futures`
+
 ## [0.3.0] - 2021-12-04
 
 ### Changed
