@@ -1,6 +1,6 @@
 use futures_lite::io::AsyncReadExt as _;
 
-/// Reads ttyrec frames from a [`futures::io::AsyncRead`] instance.
+/// Reads ttyrec frames from a [`futures_lite::io::AsyncRead`] instance.
 pub struct Reader<T: futures_lite::io::AsyncRead> {
     input: T,
     parser: crate::Parser,
@@ -8,7 +8,7 @@ pub struct Reader<T: futures_lite::io::AsyncRead> {
 }
 
 impl<T: futures_lite::io::AsyncRead + std::marker::Unpin + Send> Reader<T> {
-    /// Creates a new [`Reader`](Self) from a [`futures::io::AsyncRead`]
+    /// Creates a new [`Reader`](Self) from a [`futures_lite::io::AsyncRead`]
     /// instance.
     pub fn new(input: T) -> Self {
         Self {
