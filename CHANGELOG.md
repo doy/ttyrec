@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.2] - 2021-12-05
+
+### Fixed
+
+* fixed some doc links
+
 ## [0.3.1] - 2021-12-04
 
 ### Changed
