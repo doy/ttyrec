@@ -47,6 +47,13 @@ impl std::fmt::Display for Error {
     }
 }
 
-impl std::error::Error for Error {}
+impl std::error::Error for Error {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::Read { source } | Self::Write { source } => Some(source),
+            _ => None,
+        }
+    }
+}
 
 pub type Result<T> = std::result::Result<T, Error>;
