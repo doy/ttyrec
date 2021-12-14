@@ -33,7 +33,11 @@ impl<T: std::io::Read> Reader<T> {
             if bytes == 0 {
                 return Err(crate::Error::EOF);
             }
-            self.parser.add_bytes(&self.buf[..bytes]);
+            self.parser.add_bytes(
+                // read() returning a value means that that many bytes are
+                // guaranteed to be available
+                self.buf.get(..bytes).unwrap_or_else(|| unreachable!()),
+            );
         }
     }
 

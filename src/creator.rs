@@ -4,7 +4,7 @@
 /// [`Frame`](crate::Frame) objects, which can be serialized to bytes using
 /// their `try_from` implementation, and then a ttyrec file can be generated
 /// by concatenating those byte strings.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Creator {
     base_time: Option<std::time::Instant>,
 }
@@ -31,21 +31,16 @@ impl Creator {
     /// Note that this is not guaranteed to do the correct thing unless the
     /// `cur_time` parameters given in each [`frame_at`](Self::frame_at) call
     /// are non-decreasing.
-    #[allow(clippy::missing_panics_doc)]
     pub fn frame_at(
         &mut self,
         cur_time: std::time::Instant,
         data: &[u8],
     ) -> crate::frame::Frame {
-        // this is triggering incorrectly - the code transformation it
-        // suggests doesn't work due to lifetime issues
-        #[allow(clippy::option_if_let_else)]
         let base_time = if let Some(base_time) = &self.base_time {
             base_time
         } else {
             self.base_time = Some(cur_time);
-            // this unwrap is safe because we just set the value to Some
-            self.base_time.as_ref().unwrap()
+            &cur_time
         };
         crate::frame::Frame {
             time: cur_time - *base_time,
@@ -54,13 +49,8 @@ impl Creator {
     }
 }
 
-impl Default for Creator {
-    fn default() -> Self {
-        Self { base_time: None }
-    }
-}
-
 #[cfg(test)]
+#[allow(clippy::unwrap_used)]
 mod test {
     use super::*;
 

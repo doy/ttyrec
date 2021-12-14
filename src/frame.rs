@@ -43,6 +43,7 @@ impl TryFrom<Frame> for Vec<u8> {
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used)]
 mod test {
     use super::*;
 
