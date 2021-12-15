@@ -1,6 +1,6 @@
 [package]
 name = "ttyrec"
-version = "0.3.2"
+version = "0.3.3"
 authors = ["Jesse Luehrs <doy@tozt.net>"]
 edition = "2021"
 
