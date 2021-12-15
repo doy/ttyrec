@@ -52,6 +52,8 @@ impl Parser {
     /// If a complete frame is found, the bytes for that frame will be removed
     /// from the internal buffer and the frame object will be returned. If a
     /// complete frame is not found, this method will return [`None`].
+    // these unwraps aren't reachable
+    #[allow(clippy::missing_panics_doc)]
     pub fn next_frame(&mut self) -> Option<crate::frame::Frame> {
         let header = if let Some(header) = &self.read_state {
             header
@@ -61,41 +63,29 @@ impl Parser {
             }
 
             // these unwraps are guaranteed safe by the length check above
-            let secs1 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
-            let secs2 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
-            let secs3 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
-            let secs4 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
+            let secs1 = self.reading.pop_front().unwrap();
+            let secs2 = self.reading.pop_front().unwrap();
+            let secs3 = self.reading.pop_front().unwrap();
+            let secs4 = self.reading.pop_front().unwrap();
             let secs = u32::from_le_bytes([secs1, secs2, secs3, secs4]);
 
-            let micros1 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
-            let micros2 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
-            let micros3 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
-            let micros4 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
+            let micros1 = self.reading.pop_front().unwrap();
+            let micros2 = self.reading.pop_front().unwrap();
+            let micros3 = self.reading.pop_front().unwrap();
+            let micros4 = self.reading.pop_front().unwrap();
             let micros =
                 u32::from_le_bytes([micros1, micros2, micros3, micros4]);
 
-            let len1 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
-            let len2 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
-            let len3 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
-            let len4 =
-                self.reading.pop_front().unwrap_or_else(|| unreachable!());
+            let len1 = self.reading.pop_front().unwrap();
+            let len2 = self.reading.pop_front().unwrap();
+            let len3 = self.reading.pop_front().unwrap();
+            let len4 = self.reading.pop_front().unwrap();
             let len = u32::from_le_bytes([len1, len2, len3, len4]);
 
             let header = Header { secs, micros, len };
             self.read_state = Some(header);
             // unwrap is safe because we just set self.read_state to Some
-            self.read_state.as_ref().unwrap_or_else(|| unreachable!())
+            self.read_state.as_ref().unwrap()
         };
 
         if self.reading.len() < header.len() {
@@ -107,7 +97,7 @@ impl Parser {
             data.push(
                 // unwrap is safe because we just checked that there are
                 // sufficient bytes in self.reading
-                self.reading.pop_front().unwrap_or_else(|| unreachable!()),
+                self.reading.pop_front().unwrap(),
             );
         }
 

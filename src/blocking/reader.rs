@@ -21,6 +21,8 @@ impl<T: std::io::Read> Reader<T> {
     /// * [`Error::EOF`](crate::Error::EOF): The input stream has been closed.
     /// * [`Error::Read`](crate::Error::Read): There was an error reading from
     /// the input stream.
+    // these unwraps aren't reachable
+    #[allow(clippy::missing_panics_doc)]
     pub fn read_frame(&mut self) -> crate::Result<crate::Frame> {
         loop {
             if let Some(frame) = self.parser.next_frame() {
@@ -36,7 +38,7 @@ impl<T: std::io::Read> Reader<T> {
             self.parser.add_bytes(
                 // read() returning a value means that that many bytes are
                 // guaranteed to be available
-                self.buf.get(..bytes).unwrap_or_else(|| unreachable!()),
+                &self.buf[..bytes],
             );
         }
     }
