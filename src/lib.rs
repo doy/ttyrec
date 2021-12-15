@@ -22,6 +22,7 @@
 #![allow(clippy::struct_excessive_bools)]
 #![allow(clippy::too_many_arguments)]
 #![allow(clippy::too_many_lines)]
+#![allow(clippy::type_complexity)]
 
 mod creator;
 pub use creator::Creator;
