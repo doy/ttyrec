@@ -7,9 +7,9 @@
 //! `blocking::Writer` provide a similar API for non-asynchronous
 //! applications.
 //!
-//! If you do not need the async API, the `futures` dependency can be removed
-//! by building with `default_features = false` (by default, the `"async"`
-//! feature is enabled).
+//! # Features
+//!
+//! Async support via Tokio can be enabled via the `"async"` feature.
 
 #![warn(clippy::cargo)]
 #![warn(clippy::pedantic)]
