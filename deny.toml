@@ -11,4 +11,5 @@ unsound = "deny"
 
 [licenses]
 allow = ["MIT", "Apache-2.0"]
+unused-allowed-license = "allow"
 copyleft = "deny"
