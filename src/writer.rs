@@ -1,13 +1,13 @@
 use tokio::io::AsyncWriteExt as _;
 
-/// Writes ttyrec frames to a [`futures_lite::io::AsyncWrite`] instance.
+/// Writes ttyrec frames to a [`tokio::io::AsyncWrite`] instance.
 pub struct Writer<T: tokio::io::AsyncWrite> {
     output: T,
     creator: crate::Creator,
 }
 
 impl<T: tokio::io::AsyncWrite + std::marker::Unpin + Send> Writer<T> {
-    /// Creates a new [`Writer`](Self) from a [`futures_lite::io::AsyncWrite`]
+    /// Creates a new [`Writer`](Self) from a [`tokio::io::AsyncWrite`]
     /// instance.
     pub fn new(output: T) -> Self {
         Self {

@@ -1,6 +1,6 @@
 use tokio::io::AsyncReadExt as _;
 
-/// Reads ttyrec frames from a [`futures_lite::io::AsyncRead`] instance.
+/// Reads ttyrec frames from a [`tokio::io::AsyncRead`] instance.
 pub struct Reader<T: tokio::io::AsyncRead> {
     input: T,
     parser: crate::Parser,
@@ -8,7 +8,7 @@ pub struct Reader<T: tokio::io::AsyncRead> {
 }
 
 impl<T: tokio::io::AsyncRead + std::marker::Unpin + Send> Reader<T> {
-    /// Creates a new [`Reader`](Self) from a [`futures_lite::io::AsyncRead`]
+    /// Creates a new [`Reader`](Self) from a [`tokio::io::AsyncRead`]
     /// instance.
     pub fn new(input: T) -> Self {
         Self {
