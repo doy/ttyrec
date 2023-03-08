@@ -38,10 +38,10 @@ impl std::fmt::Display for Error {
                 u32::max_value()
             ),
             Self::Read { source } => {
-                write!(f, "failed to read from input: {}", source)
+                write!(f, "failed to read from input: {source}")
             }
             Self::Write { source } => {
-                write!(f, "failed to write to output: {}", source)
+                write!(f, "failed to write to output: {source}")
             }
         }
     }
